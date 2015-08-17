@@ -18,6 +18,7 @@
 
       if (options.localStorageKey) {
         localStorage[options.localStorageKey] = time;
+        console.log(localStorage[options.localStorageKey], time);
       }
 
       if (options.sessionStorageKey) {
@@ -47,6 +48,7 @@
       if (evt.data.slice(0, 16) == "localStorageKey:") {
         options.localStorageKey = evt.data.slice(16);
         seek = parseInt(localStorage[options.localStorageKey]);
+        console.log(options.localStorageKey, seek);
       }
 
       if (evt.data.slice(0, 18) == "sessionStorageKey:") {
