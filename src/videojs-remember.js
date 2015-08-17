@@ -36,7 +36,7 @@
           player.initialSeek = parseInt(sessionStorage[options.sessionStorageKey]);
         }
 
-        player.one('playing', function() {
+        player.addEventListener('playing', function() {
           player.currentTime(player.initialSeek);
         });
       }
