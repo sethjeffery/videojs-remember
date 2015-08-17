@@ -3,7 +3,6 @@
 
   var plugin = function(options) {
     var player = this;
-    var prefix = (options.localStorageKey ? localStorage['videojs.remember.prefix'] : sessionStorage['videojs.remember.prefix']) || '';
 
     this.on('timeupdate', time_updated);
     this.on('ended', time_updated);
@@ -18,27 +17,46 @@
       }
 
       if (options.localStorageKey) {
-        localStorage[prefix + options.localStorageKey] = time;
+        localStorage[options.localStorageKey] = time;
       }
 
       if (options.sessionStorageKey) {
-        sessionStorage[prefix + options.sessionStorageKey] = time;
+        sessionStorage[options.sessionStorageKey] = time;
       }
     }
 
     player.ready(function() {
       if (!player.initialSeek) {
         if (options.localStorageKey) {
-          player.initialSeek = parseInt(localStorage[prefix + options.localStorageKey]);
+          player.initialSeek = parseInt(localStorage[options.localStorageKey]);
         }
 
         if (options.sessionStorageKey) {
-          player.initialSeek = parseInt(sessionStorage[prefix + options.sessionStorageKey]);
+          player.initialSeek = parseInt(sessionStorage[options.sessionStorageKey]);
         }
 
         player.one('playing', function() {
           player.currentTime(player.initialSeek);
         });
+      }
+    });
+
+    window.addEventListener("message", function(evt) {
+      var seek;
+
+      if (evt.data.slice(0, 16) == "localStorageKey:") {
+        options.localStorageKey = evt.data.slice(16);
+        seek = parseInt(localStorage[options.localStorageKey]);
+      }
+
+      if (evt.data.slice(0, 18) == "sessionStorageKey:") {
+        options.sessionStorageKey = evt.data.slice(18);
+        seek = parseInt(sessionStorage[options.sessionStorageKey]);
+      }
+
+      if (seek && player.initialSeek) {
+        player.initialSeek = seek;
+        player.currentTime(seek);
       }
     });
   };
