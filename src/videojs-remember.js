@@ -3,7 +3,7 @@
 
   var plugin = function(options) {
     var player = this;
-    var prefix = localStorage['videojs.remember.prefix'] || '';
+    var prefix = (options.localStorageKey ? localStorage['videojs.remember.prefix'] : sessionStorage['videojs.remember.prefix']) || '';
 
     this.on('timeupdate', time_updated);
     this.on('ended', time_updated);
