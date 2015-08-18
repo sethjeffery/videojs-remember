@@ -41,7 +41,9 @@
         }
 
         if (seek) {
+          console.log('loaded with storageKey', seek);
           player.one('playing', function() {
+            console.log('playing');
             player.currentTime(seek);
           });
         }
@@ -62,7 +64,8 @@
       }
 
       if (seek && isLoaded) {
-        player.currentTime(seek);
+        console.log(seek);
+        player.currentTime('received', seek);
       }
     });
   };
