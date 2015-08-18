@@ -14,42 +14,35 @@
       var time = Math.floor(current_time);
 
       if(time > duration || time_update_event.type === "ended") {
-        console.log("wrong time", time, duration, time_update_event.type);
         time = 0;
       }
 
-      if (options.localStorageKey) {
-        localStorage[options.localStorageKey] = time;
-        console.log('saving', time);
-      }
+      if (isLoaded) {
+        if (options.localStorageKey) {
+          localStorage[options.localStorageKey] = time;
+        }
 
-      if (options.sessionStorageKey) {
-        sessionStorage[options.sessionStorageKey] = time;
+        if (options.sessionStorageKey) {
+          sessionStorage[options.sessionStorageKey] = time;
+        }
       }
     }
 
     var isLoaded;
     player.ready(function() {
+      if (isLoaded) return;
+      isLoaded = true;
+      var seek;
 
-      var seekFunction = function() {
-        if (isLoaded) return;
-        isLoaded = true;
-        var seek;
+      if (options.localStorageKey) {
+        seek = parseInt(localStorage[options.localStorageKey]);
+      }
 
-        if (options.localStorageKey) {
-          seek = parseInt(localStorage[options.localStorageKey]);
-        }
+      if (options.sessionStorageKey) {
+        seek = parseInt(sessionStorage[options.sessionStorageKey]);
+      }
 
-        if (options.sessionStorageKey) {
-          seek = parseInt(sessionStorage[options.sessionStorageKey]);
-        }
-
-        console.log("starting", seek);
-        player.currentTime(seek);
-      };
-
-      player.one('playing', seekFunction);
-      player.one('play', seekFunction);
+      player.currentTime(seek);
     });
 
     window.addEventListener("message", function(evt) {
@@ -65,10 +58,7 @@
         seek = parseInt(sessionStorage[options.sessionStorageKey]);
       }
 
-      console.log("message received", seek);
-
       if (seek && isLoaded) {
-        console.log("preseeking", seek);
         player.currentTime(seek);
       }
     });
