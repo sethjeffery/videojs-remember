@@ -5,8 +5,8 @@
     var player = this;
     if (!options) options = {};
 
-    this.on('timeupdate', time_updated);
-    this.on('ended', time_updated);
+    player.on('timeupdate', time_updated);
+    player.on('ended', time_updated);
 
     function time_updated(time_update_event){
       var current_time = this.currentTime();
@@ -37,7 +37,7 @@
           player.initialSeek = parseInt(sessionStorage[options.sessionStorageKey]);
         }
 
-        player.addEventListener('playing', function() {
+        player.on('playing', function() {
           player.currentTime(player.initialSeek);
         });
       }
