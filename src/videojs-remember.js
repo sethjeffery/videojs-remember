@@ -19,7 +19,6 @@
 
       if (options.localStorageKey) {
         localStorage[options.localStorageKey] = time;
-        console.log(localStorage[options.localStorageKey], time);
       }
 
       if (options.sessionStorageKey) {
@@ -27,19 +26,21 @@
       }
     }
 
+    var isLoaded;
     player.ready(function() {
-      if (!player.initialSeek) {
+      if (!isLoaded) {
+        var seek;
+        isLoaded = true;
+
         if (options.localStorageKey) {
-          player.initialSeek = parseInt(localStorage[options.localStorageKey]);
+          seek = parseInt(localStorage[options.localStorageKey]);
+          player.currentTime(seek);
         }
 
         if (options.sessionStorageKey) {
-          player.initialSeek = parseInt(sessionStorage[options.sessionStorageKey]);
+          seek = parseInt(sessionStorage[options.sessionStorageKey]);
+          player.currentTime(seek);
         }
-
-        player.on('playing', function() {
-          player.currentTime(player.initialSeek);
-        });
       }
     });
 
@@ -49,7 +50,6 @@
       if (evt.data.slice(0, 16) == "localStorageKey:") {
         options.localStorageKey = evt.data.slice(16);
         seek = parseInt(localStorage[options.localStorageKey]);
-        console.log(options.localStorageKey, seek);
       }
 
       if (evt.data.slice(0, 18) == "sessionStorageKey:") {
@@ -57,8 +57,7 @@
         seek = parseInt(sessionStorage[options.sessionStorageKey]);
       }
 
-      if (seek && player.initialSeek) {
-        player.initialSeek = seek;
+      if (seek && isLoaded) {
         player.currentTime(seek);
       }
     });
