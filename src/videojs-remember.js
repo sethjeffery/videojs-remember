@@ -14,11 +14,13 @@
       var time = Math.floor(current_time);
 
       if(time > duration || time_update_event.type === "ended") {
+        console.log("wrong time", time, duration, time_update_event.type);
         time = 0;
       }
 
       if (options.localStorageKey) {
         localStorage[options.localStorageKey] = time;
+        console.log('saving', time);
       }
 
       if (options.sessionStorageKey) {
