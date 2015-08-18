@@ -26,24 +26,30 @@
       }
     }
 
-    var isLoaded;
+    var isLoaded, isSought;
     player.ready(function() {
-      if (!isLoaded) {
+      if (isLoaded) return;
+      isLoaded = true;
+
+      var seekFunction = function() {
+        if (isSought) return;
+        isSought = true;
         var seek;
-        isLoaded = true;
 
-        player.one('playing metadata play', function() {
-          if (options.localStorageKey) {
-            seek = parseInt(localStorage[options.localStorageKey]);
-          }
+        if (options.localStorageKey) {
+          seek = parseInt(localStorage[options.localStorageKey]);
+        }
 
-          if (options.sessionStorageKey) {
-            seek = parseInt(sessionStorage[options.sessionStorageKey]);
-          }
+        if (options.sessionStorageKey) {
+          seek = parseInt(sessionStorage[options.sessionStorageKey]);
+        }
 
-          player.currentTime(seek);
-        });
-      }
+        player.currentTime(seek);
+      };
+
+      player.one('playing', seekFunction);
+      player.one('play', seekFunction);
+      player.one('loadedmetadata', seekFunction);
     });
 
     window.addEventListener("message", function(evt) {
