@@ -29,19 +29,24 @@
     }
 
     player.ready(function() {
-      if (isLoaded) return;
-      isLoaded = true;
-      var seek;
+      var seekFunction = function() {
+        if (isLoaded) return;
+        isLoaded = true;
+        var seek;
 
-      if (options.localStorageKey) {
-        seek = parseInt(localStorage[options.localStorageKey]);
-      }
+        if (options.localStorageKey) {
+          seek = parseInt(localStorage[options.localStorageKey]);
+        }
 
-      if (options.sessionStorageKey) {
-        seek = parseInt(sessionStorage[options.sessionStorageKey]);
-      }
+        if (options.sessionStorageKey) {
+          seek = parseInt(sessionStorage[options.sessionStorageKey]);
+        }
 
-      player.currentTime(seek);
+        player.currentTime(seek);
+      };
+
+      player.one('playing', seekFunction);
+      player.one('play', seekFunction);
     });
 
     window.addEventListener("message", function(evt) {
