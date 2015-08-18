@@ -47,6 +47,7 @@
 
       player.one('playing', seekFunction);
       player.one('play', seekFunction);
+      player.one('loadedmetadata', seekFunction);
     });
 
     window.addEventListener("message", function(evt) {
