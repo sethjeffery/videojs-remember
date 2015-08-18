@@ -3,6 +3,7 @@
 
   var plugin = function(options) {
     var player = this;
+    if (!options) options = {};
 
     this.on('timeupdate', time_updated);
     this.on('ended', time_updated);
