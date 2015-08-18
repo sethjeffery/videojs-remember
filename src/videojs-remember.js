@@ -42,6 +42,7 @@
           seek = parseInt(sessionStorage[options.sessionStorageKey]);
         }
 
+        console.log("starting", seek);
         player.currentTime(seek);
       };
 
@@ -62,7 +63,10 @@
         seek = parseInt(sessionStorage[options.sessionStorageKey]);
       }
 
+      console.log("message received", seek);
+
       if (seek && isLoaded) {
+        console.log("preseeking", seek);
         player.currentTime(seek);
       }
     });
