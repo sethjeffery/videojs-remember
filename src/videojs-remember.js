@@ -32,21 +32,17 @@
         var seek;
         isLoaded = true;
 
-        if (options.localStorageKey) {
-          seek = parseInt(localStorage[options.localStorageKey]);
-        }
+        player.one('playing metadata play', function() {
+          if (options.localStorageKey) {
+            seek = parseInt(localStorage[options.localStorageKey]);
+          }
 
-        if (options.sessionStorageKey) {
-          seek = parseInt(sessionStorage[options.sessionStorageKey]);
-        }
+          if (options.sessionStorageKey) {
+            seek = parseInt(sessionStorage[options.sessionStorageKey]);
+          }
 
-        if (seek) {
-          console.log('loaded with storageKey', seek);
-          player.one('playing', function() {
-            console.log('playing');
-            player.currentTime(seek);
-          });
-        }
+          player.currentTime(seek);
+        });
       }
     });
 
@@ -64,7 +60,6 @@
       }
 
       if (seek && isLoaded) {
-        console.log(seek);
         player.currentTime('received', seek);
       }
     });
