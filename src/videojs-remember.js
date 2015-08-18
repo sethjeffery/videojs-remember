@@ -66,7 +66,7 @@
       }
 
       if (seek && isLoaded) {
-        player.currentTime('received', seek);
+        player.currentTime(seek);
       }
     });
   };
