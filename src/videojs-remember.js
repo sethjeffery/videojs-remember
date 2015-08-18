@@ -34,12 +34,16 @@
 
         if (options.localStorageKey) {
           seek = parseInt(localStorage[options.localStorageKey]);
-          player.currentTime(seek);
         }
 
         if (options.sessionStorageKey) {
           seek = parseInt(sessionStorage[options.sessionStorageKey]);
-          player.currentTime(seek);
+        }
+
+        if (seek) {
+          player.one('playing', function() {
+            player.currentTime(seek);
+          });
         }
       }
     });
