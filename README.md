@@ -25,6 +25,16 @@ Type: `string`
 Desc: The key name to read and write the current time of the current video in session storage.
 Type: `string`
 
+### IFRAME postMessage
+
+In order to support Brightcove IFRAME-embedded video, this plugin can listen for `postMessage`.
+
+```javascript
+iframe = document.querySelector('iframe#player');
+iframe.contentWindow.postMessage("localStorageKey:video.js.remember.myvideo", "*");
+```
+
 ## Release History
+
 
  - 0.1.0: Initial release
