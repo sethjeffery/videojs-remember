@@ -26,14 +26,12 @@
       }
     }
 
-    var isLoaded, isSought;
+    var isLoaded;
     player.ready(function() {
-      if (isLoaded) return;
-      isLoaded = true;
 
       var seekFunction = function() {
-        if (isSought) return;
-        isSought = true;
+        if (isLoaded) return;
+        isLoaded = true;
         var seek;
 
         if (options.localStorageKey) {
