@@ -2,7 +2,7 @@
   'use strict';
 
   var plugin = function(options) {
-    var player = this;
+    var player = this, isLoaded;
     if (!options) options = {};
 
     player.on('timeupdate', time_updated);
@@ -28,7 +28,6 @@
       }
     }
 
-    var isLoaded;
     player.ready(function() {
       if (isLoaded) return;
       isLoaded = true;
