@@ -4,7 +4,8 @@
   function loadJSON(str) {
 	var res;
 	if (!isNaN(str)) {
-		res = {};
+		// backwards compatible
+		res = {'seek_pos': str};
 	} else {
 	    try {
 			res = JSON.parse(str);
@@ -109,8 +110,11 @@
 		json = loadJSON(sessionStorage[options.sessionStorageKey]);
       }
 
+  	  if (options.playlist && json.playlist_index) {
+	    player.playlist.currentItem(json.playlist_index);
+	  }	  
       if (json.seek_pos && isLoaded) {
-        player.currentTime(json.seek);
+        player.currentTime(json.seek_pos);
       }
     });
   };

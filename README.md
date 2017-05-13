@@ -37,7 +37,7 @@ Desc: The key name to read and write the current time of the current video in se
 Type: `string`
 
 #### playlist
-Desc: Wether or not the current videojs player is handling a playlist (video videojs-playlist)
+Desc: Whether or not the current videojs player is handling a playlist (via videojs-playlist)
 Type: `boolean`
 
 ### IFRAME postMessage
