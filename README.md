@@ -14,6 +14,17 @@ Once you've added the plugin script to your page, you can use it with any video:
 </script>
 ```
 
+If used with [videojs-playlist](https://github.com/brightcove/videojs-playlist), you can remember the playlist position using:
+```html
+<script src="video.js"></script>
+<script src="videojs-playlist.js"></script>
+<script src="videojs-remember.js"></script>
+<script>
+  videojs(document.querySelector('video')).remember({"localStorageKey": "videojs.remember.myvideo", "playlist": true});
+</script>
+```
+
+
 ## Documentation
 ### Plugin Options
 
@@ -24,6 +35,10 @@ Type: `string`
 #### sessionStorageKey
 Desc: The key name to read and write the current time of the current video in session storage.
 Type: `string`
+
+#### playlist
+Desc: Whether or not the current videojs player is handling a playlist (via videojs-playlist)
+Type: `boolean`
 
 ### IFRAME postMessage
 
@@ -36,5 +51,5 @@ iframe.contentWindow.postMessage("localStorageKey:video.js.remember.myvideo", "*
 
 ## Release History
 
-
+ - 0.1.1: zefie's patch for playlists
  - 0.1.0: Initial release
